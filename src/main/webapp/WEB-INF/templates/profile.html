@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+        .prokrutka {
+            height: 500px;
+            width: 50%;
+            background: #fff;
+            border: 1px solid #C1C1C1;
+            overflow-x: scroll;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+<span th:if="${folderParent} != null">
+    <a th:href="@{/folder(id = ${folderParent})}"><span class="glyphicon glyphicon-circle-arrow-left"></span>Back</a>
+</span>
+<br>
+<br>
+<div class="prokrutka">
+    <div class="form-group">
+        <div th:each="folder : ${items.getFolderAction().getListFolders()}">
+            <span class="glyphicon glyphicon-folder-open"></span>
+            <a th:href="@{/folder(id = ${folder.getID()})}">
+                <span th:text="${#strings.capitalize(#strings.toLowerCase(folder.getInfo().getName()))}">Folder</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div th:each="file : ${items.getFileAction().getListFiles()}">
+            <span class="glyphicon glyphicon-file"></span>
+            <a th:href="@{/file(idFile = ${file.getID()})}">
+                <span th:text="${#strings.capitalize(#strings.toLowerCase(file.getInfo().getName()))}">File</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<form  th:action="@{/upload(id = ${idFolderCurrent})}"
+      enctype="multipart/form-data" method="post">
+    <input type="file" required name="file">
+    <br>
+    <input type="submit" class="submit" value="Upload"><br>
+</form>
+</body>
+</html>
