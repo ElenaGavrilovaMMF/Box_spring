@@ -12,12 +12,6 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class EntityConfig {
-//
-//    @Bean
-//    @Scope("singleton")
-//    public RepositoryFolder repositoryFolders(){
-//        return RepositoryFolder.getInstance();
-//    }
 
     @Bean
     @Scope("prototype")

@@ -1,14 +1,13 @@
 package by.iba.box.controller;
 
-import by.iba.box.action.FileAction;
 import by.iba.box.action.ItemAction;
 import by.iba.box.parser.ParserFolder;
-import by.iba.box.service.BeanUtil;
 import by.iba.box.service.Redirector;
 import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,14 @@ import java.io.IOException;
 @SessionAttributes("api")
 @Controller
 public class ControllerItem {
-    private static final String TOKEN = "FsOZV9Q0HqC4Bb640lWfoNutHJKDlGRZ";
+    private static final String TOKEN = "ccOdtWOzgysfmeQE374c75iIPgsZ9kNs";
     private static final String ROOT_FOLDER_PARENT = "0";
+
+    @Autowired
+    Redirector redirector;
+
+    @Autowired
+    ParserFolder parserFolder;
 
     @ModelAttribute("api")
     public BoxAPIConnection api() {
@@ -35,9 +40,9 @@ public class ControllerItem {
     public String openPage(Model model) {
         BoxFolder rootFolder = BoxFolder.getRootFolder(api());
         for (BoxItem.Info child : rootFolder.getChildren()) {
-            BeanUtil.getBean(ParserFolder.class).parse(child, api());
+            parserFolder.parse(child, api());
         }
-        ItemAction itemAction = BeanUtil.getBean(Redirector.class).redirect(rootFolder, api());
+        ItemAction itemAction = redirector.redirect(rootFolder, api());
         model.addAttribute("items", itemAction);
         model.addAttribute("idFolderCurrent", ROOT_FOLDER_PARENT);
 
@@ -46,8 +51,8 @@ public class ControllerItem {
 
     @GetMapping("/folder")
     public String openFolder(Model model, @RequestParam("id") String id) {
-        BoxFolder folder = new BoxFolder(api(),id);
-        ItemAction itemAction = BeanUtil.getBean(Redirector.class).redirect(folder, api());
+        BoxFolder folder = new BoxFolder(api(), id);
+        ItemAction itemAction = redirector.redirect(folder, api());
         model.addAttribute("items", itemAction);
         if (id.equals(ROOT_FOLDER_PARENT)) {
             model.addAttribute("folderParent", null);
@@ -62,7 +67,7 @@ public class ControllerItem {
     @RequestMapping(value = "/file", method = RequestMethod.GET)
     public String downloadFile(HttpServletResponse resp, @RequestParam("idFile") String id) throws IOException {
         BoxFile file = new BoxFile(api(), id);
-        BeanUtil.getBean(Redirector.class).redirect(file, resp);
+        redirector.redirect(file, resp);
         return "profile";
     }
 
@@ -70,7 +75,7 @@ public class ControllerItem {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public void uploadFile(HttpServletRequest req, Model model, @RequestParam("id") String id) throws IOException, ServletException {
         BoxFolder folder = new BoxFolder(api(), id);
-        BeanUtil.getBean(FileAction.class).uploadFile(req, folder);
+        redirector.redirect(folder, req);
         openFolder(model, id);
     }
 

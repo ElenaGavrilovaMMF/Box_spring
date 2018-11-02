@@ -37,7 +37,6 @@ public class FileAction {
     }
 
     public void downloadFile (BoxFile boxFile, HttpServletResponse resp) throws IOException {
-//        BoxFile.Info info = boxFile.getInfo();
         URL downloadURL = boxFile.getDownloadURL();
         resp.setContentType("text/plain");
         resp.setHeader("Content-disposition","attachment; filename="+boxFile.getInfo().getName());
