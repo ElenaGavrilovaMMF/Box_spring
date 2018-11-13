@@ -59,7 +59,7 @@
 </div>
 
 <h3>Upload</h3>
-<form method="POST" enctype="multipart/form-data" th:action="@{/upload}">
+<form method="post" enctype="multipart/form-data" th:action="@{/upload(idFolder = ${folderCurrent})}">
     <input type="file" name="file"/>
     <input type="submit" value="Upload"/>
 </form>

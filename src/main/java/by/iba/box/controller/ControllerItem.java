@@ -12,15 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.*;
 
 
 @MultipartConfig
 @Controller
 public class ControllerItem {
-    private static final String TOKEN = "Gj6F8DCHNStoWAdQLxIzpXXFT9SGJlT5";
+    private static final String TOKEN = "WE4XGIpwKPeoOquVu6SyYRhEXs4ffcR6";
     private static final BoxAPIConnection BOX_API_CONNECTION = new BoxAPIConnection(TOKEN);
     private static final String ROOT_FOLDER_PARENT = "0";
 
@@ -72,12 +75,22 @@ public class ControllerItem {
         redirector.redirect(file, resp);
     }
 
-    //TODO
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
-        System.out.println("File: " + file);
+    //TODO (дублированые файлы)
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file")MultipartFile file, @RequestParam("idFolder") String idFolder, Model model) throws IOException, ServletException {
+        BoxFolder boxFolder = new BoxFolder(BOX_API_CONNECTION, idFolder);
+        redirector.redirect(boxFolder,file);
 
-        return "index";
+        ItemAction itemAction = redirector.redirect(boxFolder);
+        model.addAttribute("items", itemAction);
+        if (idFolder.equals(ROOT_FOLDER_PARENT)) {
+            model.addAttribute("folderParent", null);
+        } else {
+            model.addAttribute("folderParent", boxFolder.getInfo().getParent().getID());
+        }
+        model.addAttribute("folderCurrent", idFolder);
+
+        return "profile";
     }
 }
 

@@ -4,6 +4,7 @@ import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import lombok.NoArgsConstructor;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +29,9 @@ public class FileAction {
         return BOX_FILES;
     }
 
-    public void uploadFile(HttpServletRequest req, BoxFolder folder) throws IOException, ServletException {
-        Part filePart = req.getPart("file");
-        InputStream inputStream = filePart.getInputStream();
-        String fileName = getFileName(filePart);
-        folder.uploadFile(inputStream, fileName);
+    public void uploadFile(BoxFolder folder, MultipartFile file) throws IOException, ServletException {
+        InputStream inputStream = file.getInputStream();
+        folder.uploadFile(inputStream, file.getOriginalFilename());
         inputStream.close();
     }
 
@@ -41,15 +40,5 @@ public class FileAction {
         resp.setContentType("text/plain");
         resp.setHeader("Content-disposition","attachment; filename="+boxFile.getInfo().getName());
         resp.getWriter().write(downloadURL.getPath());
-    }
-
-    private String getFileName(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1);
-            }
-        }
-        return null;
     }
 }
