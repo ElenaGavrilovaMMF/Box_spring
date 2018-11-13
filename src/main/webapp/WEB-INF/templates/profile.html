@@ -18,6 +18,21 @@
 </head>
 
 <body>
+
+<form th:action="@{/search(id = ${folderParent})}" method="post">
+    <input type="text" size="50" name="searchTerm" id="searchTerm">
+    type:
+    <select name="type" id="type">
+        <optgroup label="Select Type"></optgroup>
+        <option th:value="null"></option>
+        <option th:each="type : ${types}"
+                th:value="${type}"
+                th:text="${#strings.toLowerCase(type)}">
+        </option>
+    </select>
+    <input type="submit" class="submit" value="Search"><br>
+</form>
+
 <span th:if="${folderParent} != null">
     <a th:href="@{/folder(id = ${folderParent})}"><span class="glyphicon glyphicon-circle-arrow-left"></span>Back</a>
 </span>
@@ -43,11 +58,21 @@
     </div>
 </div>
 
-<form  th:action="@{/upload(id = ${idFolderCurrent})}"
-      enctype="multipart/form-data" method="post">
-    <input type="file" required name="file">
-    <br>
-    <input type="submit" class="submit" value="Upload"><br>
+<h3>Upload</h3>
+<form method="POST" enctype="multipart/form-data" th:action="@{/upload}">
+    <table>
+        <tr>
+            <td>File to upload:</td>
+            <td>
+                <input type="file" name="file"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Upload"/></td>
+        </tr>
+    </table>
 </form>
+
 </body>
 </html>
