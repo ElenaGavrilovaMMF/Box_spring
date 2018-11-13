@@ -60,18 +60,8 @@
 
 <h3>Upload</h3>
 <form method="POST" enctype="multipart/form-data" th:action="@{/upload}">
-    <table>
-        <tr>
-            <td>File to upload:</td>
-            <td>
-                <input type="file" name="file"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Upload"/></td>
-        </tr>
-    </table>
+    <input type="file" name="file"/>
+    <input type="submit" value="Upload"/>
 </form>
 
 </body>
