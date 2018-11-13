@@ -2,6 +2,7 @@ package by.iba.box.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
@@ -11,6 +12,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Configuration
 public class ThymeleafConfig {
+
+    @Bean
+    public MultipartResolver mulitpartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("utf-8");
+        commonsMultipartResolver.setMaxUploadSizePerFile(400000002);
+        return commonsMultipartResolver;
+    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {

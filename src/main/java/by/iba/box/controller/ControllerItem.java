@@ -20,7 +20,7 @@ import java.io.*;
 @MultipartConfig
 @Controller
 public class ControllerItem {
-    private static final String TOKEN = "XobC9WlQuJoKNNOwwoCh36GHNmCH1dL8";
+    private static final String TOKEN = "Gj6F8DCHNStoWAdQLxIzpXXFT9SGJlT5";
     private static final BoxAPIConnection BOX_API_CONNECTION = new BoxAPIConnection(TOKEN);
     private static final String ROOT_FOLDER_PARENT = "0";
 

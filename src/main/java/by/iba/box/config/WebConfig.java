@@ -8,6 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"by.iba.box"})
-@Import(value = {ThymeleafConfig.class, EntityConfig.class, UploadConfig.class})
+@Import(value = {ThymeleafConfig.class, EntityConfig.class})
 public class WebConfig {
 }
