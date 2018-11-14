@@ -38,6 +38,9 @@
 </span>
 <br>
 <br>
+<span th:if="${errorFile} != null">
+    <span th:text="${#strings.capitalize(#strings.toLowerCase(errorFile))}" style="color: darkred">ERROR</span>
+</span>
 <div class="prokrutka">
     <div class="form-group">
         <div th:each="folder : ${items.getFolderAction().getListFolders()}">
