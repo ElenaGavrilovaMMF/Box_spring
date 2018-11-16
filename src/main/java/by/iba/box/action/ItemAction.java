@@ -51,4 +51,22 @@ public class ItemAction {
         Matcher m = p.matcher(testString);
         return !m.matches();
     }
+
+    public String getLink(BoxItem.Info item) {
+        BoxSharedLink.Access access = BoxSharedLink.Access.OPEN;
+        BoxSharedLink.Permissions permissions = new BoxSharedLink.Permissions();
+        permissions.setCanDownload(true);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, 15);
+        Date unshareDate = c.getTime();
+        BoxSharedLink sharedLink;
+        if (new FolderAction().isFolder(item)) {
+            sharedLink = new BoxFolder(item.getResource().getAPI(), item.getID()).getInfo().getResource().createSharedLink(access, unshareDate, permissions);
+
+        } else {
+            sharedLink = new BoxFile(item.getResource().getAPI(), item.getID()).getInfo().getResource().createSharedLink(access, unshareDate, permissions);
+        }
+        return sharedLink.getURL();
+    }
 }

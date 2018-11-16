@@ -17,11 +17,11 @@ public class BoxApplicationConfig {
 
     @Bean
     public BoxConfig box() throws IOException {
-        Reader reader = new FileReader("D:/java_progects/Box_spring/src/main/java/config_file/96007721_3jca2dk0_config.json");
+        Reader reader = new FileReader("D:/java_progects/Box_spring/src/main/java/config_file/96007721_9ihp7m85_config.json");
         return BoxConfig.readFrom(reader);
     }
 
-    @Bean
+    @Bean("api")
     public BoxDeveloperEditionAPIConnection client() throws IOException {
         int MAX_CACHE_ENTRIES = 100;
         IAccessTokenCache accessTokenCache = new

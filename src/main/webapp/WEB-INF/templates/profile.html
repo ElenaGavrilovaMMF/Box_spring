@@ -33,6 +33,10 @@
     <input type="submit" class="submit" value="Search"><br>
 </form>
 
+<span th:if="${link} != null">
+    <a th:href="${link}" th:text="${link}">link</a>
+</span>
+<br>
 <span th:if="${folderParent} != null">
     <a th:href="@{/folder(id = ${folderParent})}"><span class="glyphicon glyphicon-circle-arrow-left"></span>Back</a>
 </span>
@@ -43,25 +47,44 @@
 </span>
 <div class="prokrutka">
     <div class="form-group">
-        <div th:each="folder : ${items.getFolderAction().getListFolders()}">
-            <span class="glyphicon glyphicon-folder-open"></span>
-            <a th:href="@{/folder(id = ${folder.getID()})}">
-                <span th:text="${#strings.capitalize(#strings.toLowerCase(folder.getInfo().getName()))}">Folder</span>
-            </a>
-        </div>
-    </div>
+        <table>
+            <div th:each="folder : ${items.getFolderAction().getListFolders()}">
+                <tr>
+                    <td style="width: 500px">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        <a th:href="@{/folder(id = ${folder.getID()})}">
+                            <span th:text="${#strings.capitalize(#strings.toLowerCase(folder.getInfo().getName()))}">Folder</span>
+                        </a>
+                    </td>
+                    <td>
+                        <form th:action="@{/link(id = ${folder.getID()},idFolderCurrent = ${folderCurrent})}"
+                              method="post" style="display: inline;scroll-padding-left:150px;">
+                            <input type="submit" name="link" value="Share link">
+                        </form>
+                    </td>
+                </tr>
+            </div>
 
-    <div class="form-group">
-        <div th:each="file : ${items.getFileAction().getListFiles()}">
-            <span class="glyphicon glyphicon-file"></span>
-            <a th:href="@{/file(idFile = ${file.getID()})}">
-                <span th:text="${#strings.capitalize(#strings.toLowerCase(file.getInfo().getName()))}">File</span>
-            </a>
-        </div>
+            <div th:each="file : ${items.getFileAction().getListFiles()}">
+                <tr>
+                    <td style="width: 500px">
+                        <span class="glyphicon glyphicon-file"></span>
+                        <a th:href="@{/file(idFile = ${file.getID()})}">
+                            <span th:text="${#strings.capitalize(#strings.toLowerCase(file.getInfo().getName()))}">File</span>
+                        </a>
+                    </td>
+                    <td>
+                        <form th:action="@{/link(id = ${file.getID()},idFolderCurrent = ${folderCurrent})}"
+                              method="post" style="display: inline; scroll-padding-left:150px;">
+                            <input type="submit" name="link" value="Share link">
+                        </form>
+                    </td>
+                </tr>
+            </div>
+        </table>
     </div>
 </div>
-
-<h3>Upload</h3>
+Upload file:
 <form method="post" enctype="multipart/form-data" th:action="@{/upload(idFolder = ${folderCurrent})}">
     <input type="file" name="file"/>
     <input type="submit" value="Upload"/>

@@ -19,6 +19,10 @@ public class FolderAction {
         return itemInfo.getID().length() == LENGTH_ID_FOLDER;
     }
 
+    public Boolean isFolder(String id) {
+        return id.length() == LENGTH_ID_FOLDER;
+    }
+
     public void addBoxFolder(BoxFolder folders) {
         BOX_FOLDERS.add(folders);
     }

@@ -1,11 +1,11 @@
 package by.iba.box.controller;
 
+import by.iba.box.action.FolderAction;
 import by.iba.box.action.ItemAction;
 import by.iba.box.entity.TypeItem;
 import by.iba.box.service.Redirector;
 import com.box.sdk.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +21,8 @@ import java.util.Objects;
 @MultipartConfig
 @Controller
 public class ControllerItem {
-    private static final String TOKEN = "N0V70sFMK9VsTha80MKUHYQ3fSkJNeNA";
-//    private static final BoxAPIConnection BOX_API_CONNECTION = new BoxAPIConnection(TOKEN);
+    private static final String TOKEN = "4FH1hWz5Xo0HUWoC3acxOxB9FGj9Iwze";
+   // private static final BoxAPIConnection api = new BoxAPIConnection(TOKEN);
 
     private static final String ROOT_FOLDER_PARENT = "0";
 
@@ -103,6 +103,29 @@ public class ControllerItem {
 
         return "profile";
     }
+
+    @PostMapping("/link")
+    public String link(@RequestParam("id") String id, @RequestParam("idFolderCurrent") String idFolderCurrent, Model model){
+        BoxItem.Info info;
+        if(new FolderAction().isFolder(id)){
+            info = new BoxFolder(api,id).getInfo();
+        } else {
+            info = new BoxFile(api,id).getInfo();
+        }
+        String link = redirector.redirect(info);
+        model.addAttribute("link", link);
+        BoxFolder folder = new BoxFolder(api, idFolderCurrent);
+        model.addAttribute("items",  redirector.redirect(folder));
+        if (idFolderCurrent.equals(ROOT_FOLDER_PARENT)) {
+            model.addAttribute("folderParent", null);
+        } else {
+            model.addAttribute("folderParent", folder.getInfo().getParent().getID());
+        }
+        model.addAttribute("folderCurrent", idFolderCurrent);
+
+        return "profile";
+    }
+
 }
 
 

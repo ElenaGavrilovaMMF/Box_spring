@@ -5,7 +5,6 @@ import by.iba.box.action.FolderAction;
 import by.iba.box.action.ItemAction;
 import com.box.sdk.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
@@ -57,6 +56,10 @@ public class Redirector {
     public void redirect(BoxFolder folder, MultipartFile file) throws IOException, ServletException {
         FileAction fileAction = new FileAction();
         fileAction.uploadFile(folder, file);
+    }
+
+    public String redirect(BoxItem.Info item) {
+        return new ItemAction().getLink(item);
     }
 
 }
