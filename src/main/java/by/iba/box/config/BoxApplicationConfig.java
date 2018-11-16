@@ -5,9 +5,7 @@ import com.box.sdk.IAccessTokenCache;
 import com.box.sdk.InMemoryLRUAccessTokenCache;
 import org.springframework.context.annotation.Bean;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 import com.box.sdk.BoxConfig;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +15,8 @@ public class BoxApplicationConfig {
 
     @Bean
     public BoxConfig box() throws IOException {
-        Reader reader = new FileReader("D:/java_progects/Box_spring/src/main/java/config_file/96007721_9ihp7m85_config.json");
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("96007721_9ihp7m85_config.json");
+        Reader reader = new InputStreamReader(is);
         return BoxConfig.readFrom(reader);
     }
 
