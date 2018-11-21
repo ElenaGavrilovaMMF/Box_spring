@@ -41,7 +41,6 @@
     <a th:href="@{/folder(id = ${folderParent})}"><span class="glyphicon glyphicon-circle-arrow-left"></span>Back</a>
 </span>
 <br>
-<br>
 <span th:if="${errorFile} != null">
     <span th:text="${#strings.capitalize(#strings.toLowerCase(errorFile))}" style="color: darkred">ERROR</span>
 </span>
@@ -53,7 +52,7 @@
                     <td style="width: 500px">
                         <span class="glyphicon glyphicon-folder-open"></span>
                         <a th:href="@{/folder(id = ${folder.getID()})}">
-                            <span th:text="${#strings.capitalize(#strings.toLowerCase(folder.getInfo().getName()))}">Folder</span>
+                            <span th:text="${folder.getInfo().getName()}">Folder</span>
                         </a>
                     </td>
                     <td>
@@ -70,7 +69,7 @@
                     <td style="width: 500px">
                         <span class="glyphicon glyphicon-file"></span>
                         <a th:href="@{/file(idFile = ${file.getID()})}">
-                            <span th:text="${#strings.capitalize(#strings.toLowerCase(file.getInfo().getName()))}">File</span>
+                            <span th:text="${file.getInfo().getName()}">File</span>
                         </a>
                     </td>
                     <td>
@@ -86,7 +85,7 @@
 </div>
 Upload file:
 <form method="post" enctype="multipart/form-data" th:action="@{/upload(idFolder = ${folderCurrent})}">
-    <input type="file" name="file"/>
+    <input type="file" required name="file"/>
     <input type="submit" value="Upload"/>
 </form>
 
