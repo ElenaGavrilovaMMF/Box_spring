@@ -3,6 +3,7 @@ package by.iba.box.config;
 import com.box.sdk.BoxDeveloperEditionAPIConnection;
 import com.box.sdk.IAccessTokenCache;
 import com.box.sdk.InMemoryLRUAccessTokenCache;
+import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
 
 import java.io.*;

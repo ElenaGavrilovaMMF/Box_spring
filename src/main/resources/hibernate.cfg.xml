@@ -1,0 +1,20 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE hibernate-configuration PUBLIC-->
+        <!--"-//Hibernate/Hibernate Configuration DTD 3.0//EN"-->
+        <!--"http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">-->
+<!--<hibernate-configuration>-->
+    <!--<session-factory>-->
+        <!--<property name="connection.url">jdbc:db2://localhost:50000/SAMPLE</property>-->
+        <!--<property name="connection.driver_class">com.ibm.db2.jcc.DB2Driver</property>-->
+        <!--<property name="connection.username">HaurylavaA</property>-->
+        <!--<property name="connection.password">Haur-123</property>-->
+        <!--<property name="dialect">org.hibernate.dialect.DB2Dialect</property>-->
+        <!--<property name="show_sql">true</property>-->
+        <!--<property name="format_sql">true</property>-->
+
+        <!--<mapping class="by.iba.box.entity.AuthBox"/>-->
+        <!--<mapping class="by.iba.box.entity.JsonBox"/>-->
+        <!--<mapping class="by.iba.box.entity.ConfigType"/>-->
+        <!--<mapping class="by.iba.box.entity.AppSetting"/>-->
+    <!--</session-factory>-->
+<!--</hibernate-configuration>-->
