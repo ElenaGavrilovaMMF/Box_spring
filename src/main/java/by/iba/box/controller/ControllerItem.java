@@ -22,7 +22,7 @@ import java.util.Objects;
 @Controller
 public class ControllerItem {
     private static final String TOKEN = "4FH1hWz5Xo0HUWoC3acxOxB9FGj9Iwze";
-   // private static final BoxAPIConnection api = new BoxAPIConnection(TOKEN);
+    // private static final BoxAPIConnection api = new BoxAPIConnection(TOKEN);
 
     private static final String ROOT_FOLDER_PARENT = "0";
 
@@ -30,7 +30,7 @@ public class ControllerItem {
     Redirector redirector;
 
     @Autowired
-    BoxDeveloperEditionAPIConnection api;
+    BoxAPIConnection api;
 
     @ModelAttribute
     public void addType(Model model) {
@@ -41,6 +41,7 @@ public class ControllerItem {
     @GetMapping("/")
     public String openPage(Model model) {
         BoxFolder rootFolder = BoxFolder.getRootFolder(api);
+        api.asUser("6126420254");
         ItemAction itemAction = redirector.redirect(rootFolder);
         model.addAttribute("items", itemAction);
         model.addAttribute("folderCurrent", ROOT_FOLDER_PARENT);
@@ -105,17 +106,17 @@ public class ControllerItem {
     }
 
     @PostMapping("/link")
-    public String link(@RequestParam("id") String id, @RequestParam("idFolderCurrent") String idFolderCurrent, Model model){
+    public String link(@RequestParam("id") String id, @RequestParam("idFolderCurrent") String idFolderCurrent, Model model) {
         BoxItem.Info info;
-        if(new FolderAction().isFolder(id)){
-            info = new BoxFolder(api,id).getInfo();
+        if (new FolderAction().isFolder(id)) {
+            info = new BoxFolder(api, id).getInfo();
         } else {
-            info = new BoxFile(api,id).getInfo();
+            info = new BoxFile(api, id).getInfo();
         }
         String link = redirector.redirect(info);
         model.addAttribute("link", link);
         BoxFolder folder = new BoxFolder(api, idFolderCurrent);
-        model.addAttribute("items",  redirector.redirect(folder));
+        model.addAttribute("items", redirector.redirect(folder));
         if (idFolderCurrent.equals(ROOT_FOLDER_PARENT)) {
             model.addAttribute("folderParent", null);
         } else {
