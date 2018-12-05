@@ -2,9 +2,6 @@ package by.iba.box.dto;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.xml.ws.WebServiceRef;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
