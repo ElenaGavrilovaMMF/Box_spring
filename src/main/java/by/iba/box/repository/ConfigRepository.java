@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConfigRepository extends CrudRepository<ConfigType,Integer> {
 
-    ConfigType findByNameTypeJSON(String name);
+    ConfigType findByNameTypeJSON (String name);
 }
